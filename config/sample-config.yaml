@@ -29,6 +29,9 @@ ldap_groups:
   name_attribute: cn
   # this attribute must reference to all member DN's of the given group
   member_attribute: member
+  # used, when member_attribute has name only and not dn
+  member_attribute_prefix: ""
+  member_attribute_suffix: ""
 
 # Connection parameters to PostgreSQL server
 # see also: http://rubydoc.info/gems/pg/PG/Connection#initialize-instance_method

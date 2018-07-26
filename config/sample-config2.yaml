@@ -36,6 +36,9 @@ ldap_groups:
   lowercase_name: false
   # this attribute must reference to all member DN's of the given group
   member_attribute: member
+  # used, when member_attribute has name only and not dn
+  member_attribute_prefix: "uid="
+  member_attribute_suffix: ",OU=company,DC=company,DC=prod"
 
 # Connection parameters to PostgreSQL server
 # see also: http://rubydoc.info/gems/pg/PG/Connection#initialize-instance_method

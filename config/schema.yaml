@@ -40,6 +40,12 @@ mapping:
       "member_attribute":
         type: str
         required:  yes
+      "member_attribute_prefix":
+        type: str
+        required:  yes
+      "member_attribute_suffix":
+        type: str
+        required:  yes
 
   "pg_connection":
     type:      any

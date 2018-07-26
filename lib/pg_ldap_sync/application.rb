@@ -91,7 +91,13 @@ class Application
       name.downcase! if ldap_group_conf[:lowercase_name]
 
       log.info "found group-dn: #{entry.dn}"
-      group = LdapRole.new name, entry.dn, entry[ldap_group_conf[:member_attribute]]
+      members = []
+      entry[ldap_group_conf[:member_attribute]].each do |value|
+        members << ldap_group_conf[:member_attribute_prefix] + value + ldap_group_conf[:member_attribute_suffix]
+      end
+      # puts members.to_yaml
+      # puts entry[ldap_group_conf[:member_attribute]].to_yaml
+      group = LdapRole.new name, entry.dn, members
       groups << group
       entry.each do |attribute, values|
         log.debug "   #{attribute}:"
