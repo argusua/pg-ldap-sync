@@ -160,6 +160,24 @@ class Application
     return new_list
   end
 
+  def filter_ldap_users(ldap_users, ldap_groups)
+    ldap_by_dn = ldap_users.inject({}){|h,r| h[r.dn] = r; h }
+
+    users = ldap_groups.inject([]){|a,r|
+      next a unless r.member_dns
+      a + r.member_dns.map{|dn|
+        if has_member=ldap_by_dn[dn]
+          log.info "add for sync user-dn: #{dn}"
+          LdapRole.new ldap_by_dn[dn].name, dn
+        else
+          log.warn{"ldap member with dn #{dn} is not exists"}
+          nil
+        end
+      }.compact
+    }
+    return users
+  end
+
   MatchedRole = Struct.new :ldap, :pg, :name, :state, :type
 
   def match_roles(ldaps, pgs, type)
@@ -310,6 +328,7 @@ class Application
     @ldap = Net::LDAP.new @config[:ldap_connection]
     ldap_users = uniq_names search_ldap_users
     ldap_groups = uniq_names search_ldap_groups
+    ldap_users = uniq_names filter_ldap_users(ldap_users, ldap_groups)
 
     # gather PGs users and groups
     @pgconn = PG.connect @config[:pg_connection]
