@@ -61,7 +61,7 @@ mapping:
       "create_options":
         type: str
       "create_user_params":
-        type: map
+        type: any
 
   "pg_groups":
     type: map
