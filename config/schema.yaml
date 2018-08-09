@@ -60,6 +60,8 @@ mapping:
         required:  yes
       "create_options":
         type: str
+      "create_user_params":
+        type: map
 
   "pg_groups":
     type: map

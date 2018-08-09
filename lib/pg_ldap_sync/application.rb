@@ -242,6 +242,11 @@ class Application
   def create_pg_role(role)
     pg_conf = @config[role.type==:user ? :pg_users : :pg_groups]
     pg_exec_modify "CREATE ROLE \"#{role.name}\" #{pg_conf[:create_options]}"
+    if role.type==:user
+      pg_conf[:create_user_params].each do |k, v|
+        pg_exec_modify "ALTER ROLE \"#{role.name}\" SET #{k} = '#{v}'"
+      end
+    end
   end
 
   def drop_pg_role(role)

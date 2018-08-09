@@ -47,6 +47,9 @@ pg_users:
   filter: rolcanlogin AND NOT rolsuper
   # Options for CREATE RULE statements
   create_options: LOGIN
+  create_user_params:
+    log_statement: 'all'
+    statement_timeout: '30000'
 
 pg_groups:
   # Filter for identifying LDAP generated groups in the database.

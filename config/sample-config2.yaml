@@ -54,6 +54,9 @@ pg_users:
   filter: oid IN (SELECT pam.member FROM pg_auth_members pam JOIN pg_roles pr ON pr.oid=pam.roleid WHERE pr.rolname='ldap_users')
   # Options for CREATE RULE statements
   create_options: LOGIN IN ROLE ldap_users
+  create_user_params:
+    log_statement: 'all'
+    statement_timeout: '30000'
 
 pg_groups:
   # Filter for identifying LDAP generated groups in the database.
